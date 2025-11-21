@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Portfolio Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4f46e5', // This is the color you used in the nav for the active link
+                        'secondary': '#10b981', // light violet
+                        'accent-dark': '#8f0683', // Custom color for headings/accents
+                        'background-light': '#ec889e', // Your chosen body background color
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    
+        /* Smooth scrolling for internal links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Styling for section headings */
+        .section-heading {
+            border-left: 4px solid #8f0683;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* CUSTOM CSS FOR TAB FUNCTIONALITY */
+        /* This is crucial for visual feedback and hiding/showing content */
+        .about-tab-btn.active-tab-btn {
+            /* The color for the active tab button line */
+            border-color: #8f0683; 
+            color: #8f0683; /* Matching text color for active tab */
+        }
+        .about-tab-content {
+            display: none; /* Hide all tab content by default */
+        }
+        .about-tab-content.active {
+            display: block; /* Show only the active content */
+        }
+        /* END CUSTOM CSS FOR TAB FUNCTIONALITY */
+        
+        /* Custom styles for better aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #da8bbb;
+        }
+        main {
+            flex-grow: 1;
+        }
+        /* Icon hover styles (as per your original code) */
+        .icon-link {
+            transition: all 0.2s ease-in-out;
+            border-radius: 9999px; /* Fully rounded */
+            padding: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-link:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 6px -1px rgba(187, 24, 174, 0.1), 0 2px 4px -2px rgba(179, 19, 166, 0.06);
+        }
+        .facebook-color:hover { background-color: #241ab3; color: white; }
+        .instagram-color:hover { background-image: linear-gradient(45deg, #750a6c 0%,#350525 25%,#5c0b17 50%,#cc2366 75%,#bc1888 100%); color: white; }
+        .github-color:hover { background-color: #c0116e; color: white; }
+        .mail-color:hover { background-color: #d946ef; color: white; } /* Purple for email */
+    </style>
+</head>
+<body class="bg-background-light font-sans text-gray-800">
+
+    <nav class="bg-black shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-white">My E-Portfolio</span>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#home" class="text-white inline-flex items-center px-1 pt-1 border-b-2 border-primary text-sm font-medium">Home</a>
+                    <a href="#gallery" class="text-white hover:border-gray-300 hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Gallery</a>
+                    <a href="#about-section" class="text-white hover:border-gray-300 hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">About</a>
+                    <a href="#portfolio" class="text-white hover:border-gray-300 hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Portfolio</a>
+                    <a href="#contact" class="text-white hover:border-gray-300 hover:text-gray-300 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium">Contact</a>
+                </div>
+                <div class="flex items-center sm:hidden">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-controls="mobile-menu" aria-expanded="false">
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="#home" class="bg-indigo-50 border-primary text-primary block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="#gallery" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Gallery</a>
+                <a href="#about-section" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">About</a>
+                <a href="#portfolio" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Portfolio</a>
+                <a href="#contact" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <section id="home" class="bg-background-gray shadow-xl rounded-2xl p-8 mb-12">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-shrink-0">
+                    <img src="images/3.jpg"
+                        alt="My Professional Profile Picture" 
+                        class="w-40 h-40 object-cover rounded-full border-4 border-primary shadow-lg"
+                    />
+                </div>
+                
+                <div>
+                    <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Hello, I'm Mikyla Sevilla</h1>
+                    <p class="text-2xl font-semibold text-primary mb-4">Bachelor of Science in Information Technology</p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                      I am an IT student currently pursuing a degree in Information Technology.
+                    </p>
+                    <p> This e-portfolio showcases my skills, experiences, and projects developed using HTML, CSS, and JavaScript.</p>
+                    <a href="#contact" class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-black bg-gray-200 hover:bg-indigo-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition duration-150 ease-in-out">
+                        Contact me.
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="resume" class="py-12">
+            <h2 class="text-3xl font-bold text-gray-900 section-heading">Resume & Work Experience</h2>
+            <div class="bg-gray bg-gray-500 rounded-xl p-6 mb-8">
+               <a href="F:\sevilla.html\Resume.pdf" class="mt-8 px-10 py-3 w-fit rounded-lg bg-accent-dark text-white font-semibold uppercase tracking-wider shadow-xl hover:shadow-2xl hover:bg-opacity-95 transition duration-300">
+                    Download my Resume
+                </a>
+
+                <p class="text-2xl font-bold text-white mb-4 flex items-center justify-center">
+                    <i data-lucide="file-text" class="w-7 h-7 mr-3 text-orange-500"></i>
+                </p>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-secondary">
+                    <h3 class="text-xl font-bold text-gray-900">Software Intern at ADTEMPCO </h3>
+                    <p class="text-primary font-semibold">September 28 2025 - Present</p>
+                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                        <li>Cash Receipt Checker</li>
+                        <li>File organizer</li>
+                        <h4 class="text-primary font-semibold"> 
+                            I am focused on learning, fixing technical problems, and building a solid
+                            foundation in technology. I am looking forward to applying these skills in new projects. 
+                        </h4>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="portfolio" class="py-12">
+            <h2 class="text-3xl font-bold text-gray-900 section-heading">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out">
+                    <img src="F:\Screenshot 2025-11-19 190906.png" alt="Project 1: Resume Website" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Project Title: RESUME</h3>
+                        <p class="text-gray-600 mb-3">Focuses on creating a professional, web-ready resume for job applications.</p>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">HTML</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">CSS</span>
+                        <a href="https://github.com/sevillamikyla00-sketch/Resume.github.io" target="_blank" class="mt-4 block text-primary hover:text-indigo-700 font-medium">
+                            View on GitHub &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out">
+                    <img src="F:\c8428a54-7722-4bea-bbab-41bc691a7c1f.jpg" alt="Project 2: User Registration Form" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Project Title: REGISTRATION</h3>
+                        <p class="text-gray-600 mb-3">A standard user registration form design, emphasizing clean UI/UX principles.</p>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">HTML</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">CSS</span>
+                        <a href="https://github.com/sevillamikyla00-sketch/Register.github.io" target="_blank" class="mt-4 block text-primary hover:text-indigo-700 font-medium">
+                            View on GitHub &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out">
+                    <img src="F:\Screenshot 2025-11-19 190426.png" alt="Project 3: Digital Invitation" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Project Title: Invitation</h3>
+                        <p class="text-gray-600 mb-3">A digital invitation focused on event aesthetics and responsive design.</p>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-2">HTML/CSS</span>
+                        <a href="https://github.com/sevillamikyla00-sketch/Invitation.github.io" target="_blank" class="mt-4 block text-primary hover:text-indigo-700 font-medium">
+                            View on GitHub &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section" class="page-content py-12">
+            <div class="max-w-4xl mx-auto px-4">
+                <h3 class="text-3xl font-extrabold text-accent-dark border-b-4 border-accent-dark/50 inline-block pb-1 mb-10 w-full text-center">
+                    About DCCP
+                </h3>
+                
+                <div class="flex justify-center space-x-2 md:space-x-4 mb-8 border-b-2 border-gray-200">
+                    <button data-tab="about" class="about-tab-btn active-tab-btn px-6 py-3 text-lg font-semibold border-b-4 border-transparent hover:border-accent-dark/50 transition duration-300">
+                        About me
+                    </button>
+                    <button data-tab="history" class="about-tab-btn px-6 py-3 text-lg font-semibold border-b-4 border-transparent hover:border-accent-dark/50 transition duration-300">
+                        History
+                    </button>
+                    <button data-tab="vision" class="about-tab-btn px-6 py-3 text-lg font-semibold border-b-4 border-transparent hover:border-accent-dark/50 transition duration-300">
+                        Vision
+                    </button>
+                    <button data-tab="mission" class="about-tab-btn px-6 py-3 text-lg font-semibold border-b-4 border-transparent hover:border-accent-dark/50 transition duration-300">
+                        Mission
+                    </button>
+                </div>
+
+                <div id="about-content-container" class="bg-white p-6 md:p-10 rounded-xl shadow-lg">
+                    <div id="tab-about" class="about-tab-content active">
+                        <h4 class="text-2xl font-bold mb-4 text-accent-dark">Who We Are</h4>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Data Center College of the Philippines (DCCP) is dedicated to providing excellence in technical and academic education. We focus on developing well-rounded individuals who are prepared to meet the demands of the global workforce through relevant instruction and community engagement. 
+                        </p>
+                    </div>  
+                    
+                    <div id="tab-history" class="about-tab-content">
+                        <h4 class="text-2xl font-bold mb-4 text-accent-dark">History of DCCP</h4>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Origin: Data Center College of the Philippines was founded in **1974 in Davao City**, starting with keypunching and basic computer training.
+                            Expansion: In **1980, DCCP established a branch in Baguio City**, reorienting its curriculum to include courses on microcomputers.
+                            Abra Campus: The DCCP - Bangued Campus in Abra is part of this broader educational network, committed to local development through quality education. Its mission is to nurture students' physical, socio-cultural, and moral potential while providing quality and relevant education for total development. 
+                        </p>
+                    </div>
+
+                    <div id="tab-vision" class="about-tab-content">
+                        <h4 class="text-2xl font-bold mb-4 text-accent-dark">Future Focus and Growth</h4>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            DCCP envisions becoming a leading institution in the Philippines, producing graduates who contribute to local, regional, and national development and are globally competitive. 
+                        </p>
+                    </div>
+
+                    <div id="tab-mission" class="about-tab-content">
+                        <h4 class="text-2xl font-bold mb-4 text-accent-dark">Core Development Principles</h4>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            DCCP is committed to the holistic development of students and providing relevant education and skills so they can competently pursue their chosen professions with honor. 
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="py-12">
+            <h2 class="text-3xl font-bold text-gray-900 section-heading">Gallery (Image Showcase)</h2>
+            <div class="bg-white shadow-lg rounded-xl p-6">
+                <p class="text-gray-600 mb-12">
+                    My Gallery.
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <img src="images/1.jfif" alt="Gallery Image 1: Minimalist Web Design" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/2.jfif" alt="Gallery Image 2: Mobile App Wireframe" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/3.jpg" alt="Gallery Image 3: Branding Mockup" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/4.jfif" alt="Gallery Image 4: API Interface Design" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/5.jfif" alt="Gallery Image 5: API Interface Design" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/6.jfif" alt="Gallery Image 6: Minimalist Web Design" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/7.jfif" alt="Gallery Image 7: Mobile App Wireframe" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/8.jfif" alt="Gallery Image 8: Branding Mockup" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/9.jfif" alt="Gallery Image 9: Minimalist Web Design" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/10.jfif" alt="Gallery Image 10: Mobile App Wireframe" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/11.jfif" alt="Gallery Image 11: Minimalist Web Design" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                    <img src="images/12.jfif" alt="Gallery Image 12: Mobile App Wireframe" class="w-full h-full object-cover rounded-lg shadow-md hover:opacity-80 transition duration-300 cursor-pointer">
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-12">
+            <h2 class="text-3xl font-bold text-gray-900 section-heading">Contact Me</h2>
+            <div class="bg-white shadow-xl rounded-2xl p-8 max-w-lg mx-auto">
+                <form>
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary p-2 border"></textarea>
+                    </div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            
+            <p class="text-lg font-semibold mb-3">Email: <a href="mailto:sevillamikyla00@gmail.com" class="text-secondary hover:underline">sevillamikyla00@gmail.com</a></p>
+
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://github.com/sevillamikyla00-sketch" target="_blank" class="text-gray-400 hover:text-white transition duration-150 ease-in-out" aria-label="GitHub Profile">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.417 2.865 8.17 6.84 9.497.5.092.682-.217.682-.482 0-.237-.008-.887-.015-1.745-2.78.604-3.37-1.34-3.37-1.34-.454-1.155-1.11-1.46-1.11-1.46-.908-.62.068-.608.068-.608 1.004.07 1.532 1.03 1.532 1.03.89 1.53 2.342 1.085 2.91.828.092-.643.348-1.085.632-1.336-2.22-.252-4.555-1.11-4.555-4.943 0-1.088.39-1.983 1.03-2.682-.104-.253-.446-1.272.098-2.65 0 0 .84-.268 2.75 1.025.795-.22 1.638-.33 2.48-.33.844 0 1.687.11 2.482.33 1.91-1.293 2.748-1.025 2.748-1.025.544 1.378.202 2.397.098 2.65.64.7.99 1.594.99 2.682 0 3.832-2.337 4.686-4.566 4.938.358.308.674.92.674 1.854 0 1.334-.012 2.417-.012 2.747 0 .265.18.577.688.484C21.137 20.182 24 16.425 24 12.017 24 6.484 19.522 2 14 2h-2z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                </div>
+            
+            <p class="text-gray-400 text-sm">&copy; 2025 Mikyla Sevilla E-Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JAVASCRIPT FOR MOBILE MENU TOGGLE
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden', isExpanded);
+                // Optional: Swap the hamburger/close icons
+                const [hamburger, close] = mobileMenuButton.querySelectorAll('svg');
+                hamburger.classList.toggle('hidden');
+                close.classList.toggle('hidden');
+            });
+        }
+        
+        // JAVASCRIPT FOR TAB FUNCTIONALITY
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all tab buttons and content sections
+            const tabButtons = document.querySelectorAll('.about-tab-btn');
+            const tabContents = document.querySelectorAll('.about-tab-content');
+
+            // Function to handle tab switching
+            function switchTab(targetTab) {
+                // 1. Remove 'active' class from all buttons and content
+                tabButtons.forEach(button => {
+                    button.classList.remove('active-tab-btn'); // Use the specific class defined in CSS
+                });
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                // 2. Add 'active' class to the clicked button
+                const clickedButton = document.querySelector(`.about-tab-btn[data-tab="${targetTab}"]`);
+                if (clickedButton) {
+                    clickedButton.classList.add('active-tab-btn');
+                }
+
+                // 3. Add 'active' class to the corresponding content (using the corrected ID format: tab-X)
+                const targetContent = document.getElementById(`tab-${targetTab}`);
+                // NOTE: We check for tab-ab, about-history, etc. since those were in the original code, 
+                // but the fix uses tab-about, tab-history, etc.
+                
+                // Fallback/Correction for original incorrect IDs:
+                let contentId = `tab-${targetTab}`;
+                if (targetTab === 'about') contentId = 'tab-about'; // Corrected ID
+                else if (targetTab === 'history') contentId = 'tab-history'; // Corrected ID
+                else if (targetTab === 'vision') contentId = 'tab-vision'; // Corrected ID
+                else if (targetTab === 'mission') contentId = 'tab-mission'; // Corrected ID
+
+                const finalTargetContent = document.getElementById(contentId);
+
+                if (finalTargetContent) {
+                    finalTargetContent.classList.add('active');
+                }
+            }
+
+            // Add click event listeners to all buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    switchTab(targetTab);
+                });
+            });
+
+            // Set the default active tab on load (e.g., 'about')
+            // This is needed because the IDs were slightly inconsistent in the original input HTML
+            switchTab('about'); 
+
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
